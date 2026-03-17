@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>The Alchemist Lab - perfume.studio.kk</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&family=Sarabun:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+
+   <style>
+       body {
+           background-color: #0d041a;
+           color: white;
+           font-family: 'Sarabun', sans-serif;
+           margin: 0;
+           overflow-x: hidden;
+       }
+
+
+       /* --- ✨ คืนค่าพื้นหลังเดิมจากรูปภาพบรรยากาศร้านที่คุณส่งมา --- */
+       .page-bg {
+           position: fixed;
+           inset: 0;
+           /* URL รูปภาพบรรยากาศร้านเดิมของคุณ */
+           background-image: url('https://scontent.fbkk5-6.fna.fbcdn.net/v/t39.30808-6/506046049_725940627045932_9161134506939914429_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=CopkT0fHXZUQ7kNvwHAZ4s3&_nc_oc=Adkdqu9aC_Ek4YDIntV6kJNGC9sxBTbPKH4CBqIMGzbDWAR0wDlc61x43pY1B9zvOxw&_nc_zt=23&_nc_ht=scontent.fbkk5-6.fna&_nc_gid=tkfhD_DC-VT1rcsNGoVEMw&_nc_ss=8&oh=00_AfzYciIvv7PGIri64wftBDRkaualj6_t2Nx33Ephy0ZEuA&oe=69BEF8CB');
+           background-size: cover;
+           background-position: center;
+           /* ปรับค่าความเบลอและความสว่างให้นวลตาที่สุด ไม่ให้ม่วงเกินไป */
+           filter: blur(45px) brightness(0.6);
+           transform: scale(1.1);
+           z-index: -2;
+       }
+
+
+       /* Overlay โปร่งแสงเพื่อให้ตัวหนังสืออ่านง่ายขึ้น */
+       .overlay {
+           position: fixed;
+           inset: 0;
+           background: rgba(0, 0, 0, 0.3);
+           z-index: -1;
+       }
+
+
+       .font-calligraphy { font-family: 'Pinyon Script', cursive; }
+       .font-elegant { font-family: 'Cinzel', serif; }
+
+
+       /* แสงออนๆ หลังขวด */
+       .bottle-glow {
+           position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+           width: 600px; height: 600px;
+           background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+           pointer-events: none; z-index: 0;
+       }
+
+
+       /* --- ขวด Pop ขนาดใหญ่ (eiei) --- */
+       .bottle-display {
+           position: relative; width: 380px; height: 500px;
+           margin: 0 auto; transition: all 0.5s ease;
+           z-index: 10;
+       }
+      
+       .bottle-img {
+           width: 100%; height: 100%; object-fit: contain;
+           filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
+       }
+
+
+       /* ชื่อสลักสีดำ */
+       .engraved-label {
+           position: absolute; top: 62%; left: 50%; transform: translate(-50%, -50%);
+           width: 200px; text-align: center; color: #000000;
+           font-size: 1rem; font-weight: 500; letter-spacing: 0.15em;
+           pointer-events: none; mix-blend-mode: multiply; opacity: 0.8;
+       }
+
+
+       /* --- ตัวเลือกทรงขวด (โชว์เมื่อเป็น 50ml) --- */
+       .vessel-selector {
+           display: none; gap: 1.5rem; justify-content: center; margin-top: 2rem;
+       }
+       .vessel-option {
+           width: 80px; height: 100px; border: 1px solid rgba(212, 175, 55, 0.2);
+           border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.4s;
+           background: rgba(255, 255, 255, 0.05); padding: 5px;
+       }
+       .vessel-option img { width: 100%; height: 100%; object-fit: contain; opacity: 0.5; }
+       .vessel-option.active { border-color: #d4af37; background: rgba(212, 175, 55, 0.15); }
+       .vessel-option.active img { opacity: 1; transform: scale(1.1); }
+
+
+       /* --- ปุ่มสีพาสเทลอ่อนๆ --- */
+       .color-selector { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem; }
+       .dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.4s; }
+       .dot.active { border-color: #d4af37; transform: scale(1.25); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+      
+       .bg-pastel-orange { background-color: #fed7aa; }
+       .bg-pastel-pink { background-color: #fce7f3; }
+       .bg-pastel-gray { background-color: #e5e7eb; }
+       .bg-pastel-purple { background-color: #e9d5ff; }
+       .bg-pastel-blue { background-color: #dbeafe; }
+
+
+       .size-box { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+       .size-btn {
+           padding: 0.7rem 2rem; border: 1px solid rgba(212, 175, 55, 0.3);
+           font-size: 11px; letter-spacing: 0.3em; transition: 0.5s;
+           background: rgba(255, 255, 255, 0.03); border-radius: 40px;
+       }
+       .size-btn.active { background: #d4af37; color: black; border-color: #d4af37; }
+
+
+       .label-input-field {
+           background: transparent; border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+           text-align: center; font-size: 1.2rem; outline: none; transition: 0.4s;
+           width: 260px; margin-top: 3rem; color: #d4af37;
+       }
+
+
+       ::-webkit-scrollbar { display: none; }
+   </style>
+</head>
+<body>
+
+
+   <div class="page-bg"></div>
+   <div class="overlay"></div>
+   <div class="bottle-glow"></div>
+
+
+   <main class="relative z-10 min-h-screen flex flex-col items-center justify-center py-20 px-6">
+      
+       <header class="text-center mb-10">
+           <span class="font-calligraphy text-[#d4af37] text-5xl mb-1 block">Customizing</span>
+           <h1 class="font-elegant text-xl gold-soft uppercase tracking-widest">The Alchemist Lab</h1>
+       </header>
+
+
+       <div class="bottle-display mb-10">
+           <img id="perfume-bottle" src="image1.png" class="bottle-img" alt="bottle">
+           <!-- <div id="engraved-text" class="engraved-label font-elegant uppercase tracking-widest">Your Name</div> -->
+       </div>
+
+
+       <div class="w-full max-w-sm flex flex-col items-center">
+          
+           <div class="size-box">
+               <button onclick="selectSize(30, 590, this)" class="size-btn font-elegant active uppercase">30ml (590.-)</button>
+               <button onclick="selectSize(50, 790, this)" class="size-btn font-elegant uppercase">50ml (790.-)</button>
+           </div>
+
+
+           <div id="vessel-select-area" class="vessel-selector">
+               <div onclick="changeVessel('eiei_50_1.png', this)" class="vessel-option active">
+                   <img src="eiei_50_1.png" alt="1">
+               </div>
+               <div onclick="changeVessel('eiei_50_2.png', this)" class="vessel-option">
+                   <img src="eiei_50_2.png" alt="2">
+               </div>
+               <div onclick="changeVessel('eiei_50_3.png', this)" class="vessel-option">
+                   <img src="eiei_50_3.png" alt="3">
+               </div>
+           </div>
+
+
+           <div class="color-selector">
+               <div onclick="selectColor(this)" class="dot bg-pastel-orange"></div>
+               <div onclick="selectColor(this)" class="dot bg-pastel-pink"></div>
+               <div onclick="selectColor(this)" class="dot bg-pastel-gray"></div>
+               <div onclick="selectColor(this)" class="dot active bg-pastel-purple"></div>
+               <div onclick="selectColor(this)" class="dot bg-pastel-blue"></div>
+           </div>
+
+
+           <input type="text" id="user-label" maxlength="10" placeholder="ENGRAVE NAME" class="label-input-field font-elegant" oninput="liveEngrave(this.value)">
+          
+<a href="namhom6.html">
+    <button class="mt-14 px-12 py-4 border border-[#d4af37] text-[#d4af37] font-elegant text-xs tracking-[0.5em] uppercase hover:bg-[#d4af37] hover:text-black transition-all duration-700 rounded-full">
+        Finalize Ritual
+    </button>
+</a>
+       </div>
+   </main>
+
+
+   <script>
+       function liveEngrave(val) {
+           document.getElementById('engraved-text').innerText = val || 'Your Name';
+       }
+
+
+       function selectSize(ml, price, el) {
+           document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+           el.classList.add('active');
+          
+           const vesselArea = document.getElementById('vessel-select-area');
+           const mainBottle = document.getElementById('perfume-bottle');
+
+
+           if(ml === 50) {
+               vesselArea.style.display = 'flex';
+               mainBottle.src = 'eiei_50_1.png';
+           } else {
+               vesselArea.style.display = 'none';
+               mainBottle.src = 'eiei.png';
+           }
+       }
+
+
+       function changeVessel(imgSrc, el) {
+           document.getElementById('perfume-bottle').src = imgSrc;
+           document.querySelectorAll('.vessel-option').forEach(opt => opt.classList.remove('active'));
+           el.classList.add('active');
+       }
+
+
+       function selectColor(el) {
+           document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+           el.classList.add('active');
+       }
+   </script>
+</body>
+</html>

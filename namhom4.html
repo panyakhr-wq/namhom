@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gallery - perfume.studio.kk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&family=Sarabun:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #0d041a;
+            color: white;
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .font-calligraphy { font-family: 'Pinyon Script', cursive; }
+        .font-elegant { font-family: 'Cinzel', serif; }
+
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://scontent.fbkk5-6.fna.fbcdn.net/v/t39.30808-6/506046049_725940627045932_9161134506939914429_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=CopkT0fHXZUQ7kNvwHAZ4s3&_nc_oc=Adkdqu9aC_Ek4YDIntV6kJNGC9sxBTbPKH4CBqIMGzbDWAR0wDlc61x43pY1B9zvOxw&_nc_zt=23&_nc_ht=scontent.fbkk5-6.fna&_nc_gid=tkfhD_DC-VT1rcsNGoVEMw&_nc_ss=8&oh=00_AfzYciIvv7PGIri64wftBDRkaualj6_t2Nx33Ephy0ZEuA&oe=69BEF8CB');
+            background-size: cover;
+            background-position: center;
+            filter: blur(45px) brightness(0.5);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .scent-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 7rem 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .scent-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .img-pop-container {
+            width: 100%;
+            aspect-ratio: 1/1.2;
+            overflow: hidden;
+            border-radius: 40px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .scent-img-main {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85) grayscale(20%);
+            transition: all 0.8s ease;
+        }
+
+        .scent-item:hover .img-pop-container {
+            transform: scale(1.05);
+            box-shadow: 0 30px 70px rgba(168, 85, 247, 0.25);
+        }
+
+        .scent-item:hover .scent-img-main {
+            filter: brightness(1.1) grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .gold-soft {
+            color: #d4af37;
+            letter-spacing: 0.4em;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .thai-prose {
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 200;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 1.2rem;
+            max-width: 85%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .scent-grid { grid-template-columns: 1fr; gap: 5rem; }
+        }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="page-bg"></div>
+
+    <nav class="fixed top-0 w-full z-50 py-10 px-12 bg-black/20 backdrop-blur-2xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex flex-col">
+                <a href="index.html">
+                <span class="font-elegant text-sm gold-soft uppercase tracking-widest">perfume.studio.kk</span>
+                <br>
+                <span class="font-calligraphy text-xl text-purple-200 mt-[-2px] opacity-90">My essence</span>
+                </a>
+
+            </div>
+            <div class="hidden md:flex gap-12 font-elegant text-[11px] tracking-[0.3em] text-white/50 uppercase">
+                <a href="#" class="hover:text-[#d4af37] transition">Story</a>
+                <a href="#" class="hover:text-[#d4af37] transition">Essence</a>
+                <a href="#" class="hover:text-[#d4af37] transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-48 pb-32 px-10">
+        <header class="text-center mb-28">
+            <span class="font-calligraphy text-[#d4af37] text-6xl mb-4 block">Shopping</span>
+            <h1 id="gender-title" class="font-elegant text-4xl md:text-5xl gold-soft uppercase tracking-[0.45em]">FOR FEMALE</h1>
+            <div class="mt-8 h-px w-32 bg-gradient-to-r from-transparent via-[#d4af37]/50 to-transparent mx-auto"></div>
+        </header>
+
+        <div id="scent-display" class="scent-grid">
+            </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKXf2dzj9cNpynopueQiInBsvyMWPjx4s",
+            authDomain: "miniproject-perfume.firebaseapp.com",
+            projectId: "miniproject-perfume",
+            storageBucket: "miniproject-perfume.firebasestorage.app",
+            messagingSenderId: "498269938351",
+            appId: "1:498269938351:web:3a6918c1b56a2348e06a5a",
+            measurementId: "G-WESBXHQXZD"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadScents() {
+            // กำหนดเป็น 'female' เพื่อดึงข้อมูลฝั่งผู้หญิงจาก Firestore
+            const dbGender = 'female'; 
+
+            const container = document.getElementById('scent-display');
+            container.innerHTML = `<p class="text-center col-span-2 opacity-50">Searching the atelier...</p>`;
+
+            try {
+                // ดึงข้อมูลจาก Collection "product" เฉพาะ p_gender == "female"
+                const q = query(collection(db, "product"), where("p_gender", "==", dbGender));
+                const querySnapshot = await getDocs(q);
+                
+                let htmlContent = "";
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = `<p class="text-center col-span-2 opacity-50 italic">ยังไม่มีรายการน้ำหอมผู้หญิงในขณะนี้</p>`;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const item = doc.data();
+                    htmlContent += `
+                        <div class="scent-item" onclick="selectScent('${item.p_name}')">
+                            <div class="img-pop-container">
+                                <img src="${item.p_pic}" class="scent-img-main" alt="${item.p_name}">
+                            </div>
+                            <h2 class="font-elegant text-2xl gold-soft uppercase mb-3">${item.p_name}</h2>
+                            <p class="thai-prose italic font-light">"${item.p_detail}"</p>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = htmlContent;
+
+            } catch (error) {
+                console.error("Firebase Error: ", error);
+                container.innerHTML = `<p class="text-center col-span-2 text-red-400">Error: ${error.message}</p>`;
+            }
+        }
+
+window.selectScent = function(name) {
+            console.log("Selecting scent:", name); // ลองใส่เพื่อเช็คใน Console ว่าทำงานไหม
+            localStorage.setItem('selected_scent', name);
+            window.location.href = 'namhom5.html';
+        };
+
+        // เรียกใช้ฟังก์ชันโหลดข้อมูล
+        window.addEventListener('DOMContentLoaded', loadScents);
+    </script>
+</body>
+</html>

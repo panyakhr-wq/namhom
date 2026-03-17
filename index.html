@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>perfume.studio.kk - The Ritual Begins</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&family=Sarabun:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+
+   <style>
+       body { background-color: #05010a; color: white; font-family: 'Sarabun', sans-serif; margin: 0; scroll-behavior: smooth; }
+       .font-calligraphy { font-family: 'Pinyon Script', cursive; }
+       .font-elegant { font-family: 'Cinzel', serif; }
+
+
+       /* --- พื้นหลังคงที่ (Fixed Background) --- */
+       .fixed-bg {
+           position: fixed; inset: 0;
+           background-image: url('https://scontent.fbkk5-6.fna.fbcdn.net/v/t39.30808-6/506046049_725940627045932_9161134506939914429_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=CopkT0fHXZUQ7kNvwHAZ4s3&_nc_oc=Adkdqu9aC_Ek4YDIntV6kJNGC9sxBTbPKH4CBqIMGzbDWAR0wDlc61x43pY1B9zvOxw&_nc_zt=23&_nc_ht=scontent.fbkk5-6.fna&_nc_gid=tkfhD_DC-VT1rcsNGoVEMw&_nc_ss=8&oh=00_AfzYciIvv7PGIri64wftBDRkaualj6_t2Nx33Ephy0ZEuA&oe=69BEF8CB');
+           background-size: cover; background-position: center;
+           filter: blur(40px) brightness(0.4); transform: scale(1.1); z-index: -1;
+       }
+
+
+       .overlay { position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(15, 5, 25, 0.5) 0%, rgba(5, 1, 10, 0.95) 100%); z-index: -1; }
+
+
+       /* --- Navbar --- */
+       .nav-minimal { background: rgba(0, 0, 0, 0.1); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+       .gold-soft { color: #d4af37; letter-spacing: 0.3em; }
+
+
+       /* --- Section 1: The Entrance (Hero) --- */
+       .hero-section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+       .ambient-light { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 75%); z-index: 1; pointer-events: none; }
+
+
+       .cta-button { padding: 1.25rem 3.5rem; border: 1px solid rgba(212, 175, 55, 0.3); color: #d4af37; font-family: 'Cinzel', serif; letter-spacing: 0.5em; text-transform: uppercase; transition: 0.8s; position: relative; }
+       .cta-button:hover { border-color: #d4af37; color: white; background: rgba(212, 175, 55, 0.05)}
+
+
+       /* --- Section 2: The Atelier Story (จัดตามภาพเป๊ะ) --- */
+       .story-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 20px; }
+      
+       .glass-card {
+           background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px);
+           border: 1px solid rgba(212, 175, 55, 0.15); border-radius: 60px; /* ขอบมนพิเศษ */
+           padding: 5rem 4rem; max-width: 1100px; width: 100%; box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+       }
+
+
+       /* รูปภาพซ้าย (Pop ขอบมน) */
+       .story-img-wrapper { width: 100%; aspect-ratio: 16/9; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+       .story-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+       .story-img-wrapper:hover img { transform: scale(1.05); filter: brightness(1.1); }
+
+
+       /* ปุ่ม CTA ใหญ่ด้านล่าง */
+       .cta-large {
+           display: inline-block; padding: 1.5rem 4rem; border: 1px solid #d4af37;
+           color: #d4af37; font-size: 1.25rem; font-weight: 300; transition: 0.5s;
+       }
+       .cta-large:hover { background: #d4af37; color: black; box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); }
+
+
+       ::-webkit-scrollbar { display: none; }
+   </style>
+</head>
+<body>
+
+
+   <div class="fixed-bg"></div>
+   <div class="overlay"></div>
+
+
+   <nav class="fixed top-0 w-full z-50 nav-minimal">
+       <div class="max-w-7xl mx-auto px-12 h-24 flex items-center justify-between">
+           <div class="flex flex-col">
+               <span class="font-elegant text-sm gold-soft uppercase">perfume.studio.kk</span>
+               <span class="font-calligraphy text-lg text-purple-200 mt-[-2px] opacity-70">The Scent of Magic</span>
+           </div>
+       </div>
+   </nav>
+
+
+   <section class="hero-section">
+       <div class="ambient-light"></div>
+       <div class="relative z-10 text-center">
+           <span class="font-calligraphy text-[#d4af37] text-4xl md:text-5xl mb-2 opacity-90 block">Unveiling</span>
+           <h1 class="font-elegant text-4xl md:text-6xl gold-soft font-light uppercase tracking-[0.4em] mb-4">The Entrance</h1>
+           <div class="bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent h-px w-24 mx-auto mb-8"></div>
+           <p class="font-calligraphy text-3xl md:text-5xl text-purple-100/60 mb-8 italic">Crafted for your unique soul.</p>
+           <p class="font-light text-[10px] md:text-xs tracking-[0.5em] text-gray-500 uppercase max-w-lg mb-16 mx-auto leading-relaxed">
+               น้ำหอมหนึ่งเดียวในโลก ที่จารึกชื่อของคุณไว้ชั่วนิรันดร์
+           </p>
+           <a href="#story" class="cta-button rounded-md">Enter the Atelier</a>
+       </div>
+   </section>
+
+
+   <section id="story" class="story-section">
+       <div class="glass-card">
+          
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20 text-left">
+               <div class="relative">
+                   <div class="story-img-wrapper">
+                       <img src="https://scontent.fbkk29-1.fna.fbcdn.net/v/t39.30808-6/583322728_122113211577044618_5108518252823113634_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeFaxKmahbd3W86nPnYnxM1hcgWegGXl4SRyBZ6AZeXhJBh__WYF1bQsZPdQRXlJ7t6RHtQK_en3D34jj2EAegAn&_nc_ohc=H_gQ6JakPu4Q7kNvwHcwoxe&_nc_oc=AdlQp5KNCFpw7TsB64plLbNAw2ylAtlXbLSNn5UuqaABC-j8YCBdKoRqijgyKtPlKAg&_nc_zt=23&_nc_ht=scontent.fbkk29-1.fna&_nc_gid=impHP9PuGii1-UY5ZCk0SQ&_nc_ss=8&oh=00_Afxv42uZlg24jApxv_7B4AOQpOncUUpH_S7J679dwbaRrA&oe=69BF3B83" alt="Studio">
+                   </div>
+                   <p class="mt-4 text-[9px] tracking-[0.4em] text-[#d4af37]/50 text-center uppercase font-elegant">Atmosphere of our sacred lab</p>
+               </div>
+
+
+               <div>
+                   <h2 class="font-elegant text-2xl gold-soft uppercase mb-8 border-b border-white/10 pb-4">Our Craft, Your Soul</h2>
+                   <div class="space-y-6 text-base text-gray-300 font-light leading-relaxed mb-10">
+                       <p>เราเชื่อว่าน้ำหอมไม่ใช่แค่กลิ่น แต่คือ <span class="text-[#d4af37]">"เวทมนตร์"</span> ที่บ่งบอกตัวตน...</p>
+                       <p>เราได้ย่อส่วนหอคอยปรุงยามาไว้ในมือคุณ คัดสรรวัตถุดิบเลอค่าจากทั่วโลก เพื่อให้คุณได้ปรุงแต่งน้ำหอมหนึ่งเดียวในโลกที่จารึกชื่อคุณบนขวด</p>
+                   </div>
+
+
+                   <div class="grid grid-cols-2 gap-4 text-[10px] tracking-widest uppercase text-gray-400">
+                       <div class="flex items-center gap-2"><span class="text-[#d4af37]">✦</span> สารสกัดนำเข้า</div>
+                       <div class="flex items-center gap-2"><span class="text-[#d4af37]">✦</span> ปรุงสดใหม่ทุกขวด</div>
+                       <div class="flex items-center gap-2"><span class="text-[#d4af37]">✦</span> ส่งด่วนทั่วราชอาณาจักร</div>
+                       <div class="flex items-center gap-2"><span class="text-[#d4af37]">✦</span> ดีไซน์ตามใจคุณ</div>
+                   </div>
+               </div>
+           </div>
+
+
+           <div class="text-center pt-10 border-t border-white/5">
+               <h3 class="font-calligraphy text-[#d4af37] text-4xl mb-4">พร้อมจารึกสูตรลับหรือยัง</h3>
+               <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase mb-12 italic">เลือกส่วนผสมที่ใช่ ใส่สีสันที่ชอบ และสลักชื่อที่เป็นคุณ</p>
+               <a href="namhom2.html" class="cta-large rounded-md">เริ่มปรุงยาเสน่ห์ของคุณ</a>
+           </div>
+
+
+       </div>
+   </section>
+
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>The Final Ritual - perfume.studio.kk</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400&family=Sarabun:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+
+   <style>
+       body { background-color: #0d041a; color: white; font-family: 'Sarabun', sans-serif; overflow-x: hidden; }
+       .font-calligraphy { font-family: 'Pinyon Script', cursive; }
+       .font-elegant { font-family: 'Cinzel', serif; }
+
+
+       .page-bg {
+           position: fixed; inset: 0;
+           background-image: url('https://scontent.fbkk5-6.fna.fbcdn.net/v/t39.30808-6/506046049_725940627045932_9161134506939914429_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=13d280&_nc_ohc=CopkT0fHXZUQ7kNvwHAZ4s3&_nc_oc=Adkdqu9aC_Ek4YDIntV6kJNGC9sxBTbPKH4CBqIMGzbDWAR0wDlc61x43pY1B9zvOxw&_nc_zt=23&_nc_ht=scontent.fbkk5-6.fna&_nc_gid=tkfhD_DC-VT1rcsNGoVEMw&_nc_ss=8&oh=00_AfzYciIvv7PGIri64wftBDRkaualj6_t2Nx33Ephy0ZEuA&oe=69BEF8CB');
+           background-size: cover; background-position: center;
+           filter: blur(50px) brightness(0.4); transform: scale(1.1); z-index: -1;
+       }
+
+
+       .glass-panel {
+           background: rgba(255, 255, 255, 0.03);
+           backdrop-filter: blur(15px);
+           border: 1px solid rgba(212, 175, 55, 0.15);
+           border-radius: 40px;
+           padding: 2.5rem;
+           box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+       }
+
+
+       .input-ritual {
+           background: rgba(255, 255, 255, 0.02);
+           border: 1px solid rgba(212, 175, 55, 0.2);
+           border-radius: 15px;
+           padding: 12px 20px;
+           width: 100%;
+           outline: none;
+           transition: 0.4s;
+           color: #fff;
+           font-size: 0.9rem;
+       }
+
+
+       .input-ritual:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.05); }
+
+
+       /* --- Slip Preview Box --- */
+       .slip-preview-container {
+           width: 100%;
+           aspect-ratio: 3/4;
+           border: 1px dashed rgba(212, 175, 55, 0.3);
+           border-radius: 20px;
+           margin-top: 15px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           overflow: hidden;
+           background: rgba(0,0,0,0.2);
+           position: relative;
+       }
+
+
+       #preview-img {
+           width: 100%;
+           height: 100%;
+           object-fit: contain;
+           display: none;
+       }
+
+
+       .upload-placeholder {
+           text-align: center;
+           color: rgba(212, 175, 55, 0.5);
+           font-size: 10px;
+           letter-spacing: 0.2em;
+           text-transform: uppercase;
+       }
+
+
+       .btn-confirm {
+           background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+           color: black;
+           font-weight: 500;
+           letter-spacing: 0.3em;
+           border-radius: 30px;
+           transition: 0.5s;
+       }
+
+
+       .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+      
+       .gold-soft { color: #d4af37; letter-spacing: 0.4em; }
+       ::-webkit-scrollbar { display: none; }
+   </style>
+</head>
+<body>
+
+
+   <div class="page-bg"></div>
+
+
+   <main class="relative z-10 min-h-screen flex items-center justify-center py-10 px-6">
+       <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          
+           <div class="glass-panel">
+               <header class="mb-8">
+                   <span class="font-calligraphy text-[#d4af37] text-3xl mb-1 block">Shipping</span>
+                   <h2 class="font-elegant text-xl gold-soft uppercase">Address Details</h2>
+               </header>
+
+
+               <div class="space-y-5">
+                   <input type="text" id="cust-name" placeholder="ชื่อ-นามสกุล" class="input-ritual">
+                   <input type="tel" id="cust-phone" placeholder="เบอร์โทรศัพท์" class="input-ritual">
+                   <textarea id="cust-address" rows="4" placeholder="ที่อยู่จัดส่งโดยละเอียด" class="input-ritual"></textarea>
+               </div>
+
+
+               <div class="mt-10 pt-6 border-t border-white/10">
+                   <div class="flex justify-between text-xs font-elegant gold-soft uppercase">
+                       <span>Grand Total</span>
+                       <span id="total-price">THB 0.00</span>
+                   </div>
+               </div>
+           </div>
+
+
+           <div class="glass-panel flex flex-col items-center">
+               <header class="mb-6 text-center">
+                   <span class="font-calligraphy text-[#d4af37] text-3xl mb-1 block">Payment</span>
+                   <h2 class="font-elegant text-xl gold-soft uppercase">Verification</h2>
+               </header>
+
+
+               <div class="bg-white p-3 rounded-2xl mb-4">
+                   <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PROMPTPAY_NUMBER" alt="QR Code" class="w-32 h-32">
+               </div>
+               <p class="text-[9px] text-gray-400 font-elegant mb-6 tracking-widest uppercase">K-BANK: 123-4-56789-0 (KK Studio)</p>
+
+
+               <div class="w-full">
+                   <label class="block text-center text-[10px] text-gray-500 uppercase tracking-widest mb-3">Attach Your Ritual Slip</label>
+                   <input type="file" id="slip-upload" accept="image/*" class="hidden">
+                  
+                   <button onclick="document.getElementById('slip-upload').click()" class="w-full py-3 border border-dashed border-[#d4af37]/40 rounded-2xl text-[10px] text-[#d4af37] uppercase tracking-[0.2em] hover:bg-[#d4af37]/5 transition">
+                       Select Payment Slip
+                   </button>
+
+
+                   <div class="slip-preview-container" id="preview-container">
+                       <div class="upload-placeholder" id="placeholder-text">No slip selected</div>
+                       <img id="preview-img" src="" alt="Slip Preview">
+                   </div>
+               </div>
+
+
+               <button id="final-btn" onclick="submitRitual()" class="btn-confirm w-full mt-8 py-4 font-elegant text-xs uppercase">
+                   Verify & Confirm Order
+               </button>
+           </div>
+
+
+       </div>
+   </main>
+
+
+   <script>
+       // แสดงราคาทั้งหมดจาก localStorage
+       const perfumeData = JSON.parse(localStorage.getItem('final_perfume')) || { price: 0 };
+       document.getElementById('total-price').innerText = `THB ${perfumeData.price}.00`;
+
+
+       // ระบบ Preview รูปภาพและตรวจสอบเบื้องต้น
+       const slipInput = document.getElementById('slip-upload');
+       const previewImg = document.getElementById('preview-img');
+       const placeholderText = document.getElementById('placeholder-text');
+
+
+       slipInput.addEventListener('change', function() {
+           const file = this.files[0];
+           if (file) {
+               // ตรวจสอบขนาดไฟล์ (ไม่ควรเกิน 5MB)
+               if (file.size > 5 * 1024 * 1024) {
+                   alert("ไฟล์มีขนาดใหญ่เกินไป (จำกัด 5MB)");
+                   this.value = "";
+                   return;
+               }
+
+
+               const reader = new FileReader();
+               reader.onload = function(e) {
+                   previewImg.src = e.target.result;
+                   previewImg.style.display = 'block';
+                   placeholderText.style.display = 'none';
+               }
+               reader.readAsDataURL(file);
+           }
+       });
+
+
+       async function submitRitual() {
+           const btn = document.getElementById('final-btn');
+           const name = document.getElementById('cust-name').value;
+           const phone = document.getElementById('cust-phone').value;
+           const address = document.getElementById('cust-address').value;
+           const slipFile = slipInput.files[0];
+
+
+           if(!name || !phone || !address || !slipFile) {
+               alert("กรุณากรอกข้อมูลและแนบสลิปเพื่อยืนยันพิธีกรรม");
+               return;
+           }
+
+
+           btn.innerText = "VERIFYING RITUAL...";
+           btn.disabled = true;
+
+
+           try {
+               // --- Logic การส่งข้อมูล (Firebase หรือ API) ---
+               // ตัวอย่าง:
+               // 1. Upload รูปไปที่ Storage -> ได้ URL
+               // 2. บันทึก JSON (ชื่อ, ที่อยู่, ข้อมูลน้ำหอม, URL รูป) ลง Database
+              
+               setTimeout(() => {
+                   alert("คำสั่งซื้อของคุณเข้าสู่ระบบแล้ว ทีมงานกำลังตรวจสอบสลิปภายใน 24 ชม.");
+                   localStorage.clear();
+                   // window.location.href = "thank-you.html";
+               }, 2000);
+
+
+           } catch (error) {
+               console.error(error);
+               alert("การเชื่อมต่อขัดข้อง กรุณาลองใหม่");
+               btn.disabled = false;
+               btn.innerText = "VERIFY & CONFIRM ORDER";
+           }
+       }
+   </script>
+</body>
+</html>
