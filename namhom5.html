@@ -69,18 +69,47 @@
 
 
        /* ชื่อสลักสีดำ */
-       .engraved-label {
-           position: absolute; top: 62%; left: 50%; transform: translate(-50%, -50%);
-           width: 200px; text-align: center; color: #000000;
-           font-size: 1rem; font-weight: 500; letter-spacing: 0.15em;
-           pointer-events: none; mix-blend-mode: multiply; opacity: 0.8;
-       }
+.engraved-label {
+    position: absolute;
+    /* 1. ปรับตำแหน่งให้อยู่กลางฉลาก (ปรับ top % ตามรูปขวดของคุณ) */
+    top: 62%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* 2. กำหนดขนาดพื้นที่ฉลาก */
+    width: 65px;       /* ความกว้างของพื้นที่สลัก (ห้ามเกินขอบฉลากในรูป) */
+    max-height: 250px;   /* ความสูงสูงสุดที่ยอมให้พิมพ์ได้ */
+    
+    /* 3. การจัดการตัวหนังสือ */
+    text-align: center;
+    color: #000000;
+    font-size: 0.9rem;  /* ปรับขนาดฟอนต์ให้เล็กลงหน่อยเพื่อให้ลงตัว */
+    line-height: 1.2;   /* ระยะห่างระหว่างบรรทัด */
+    letter-spacing: 0.1em;
+    
+    /* 4. สั่งให้ตัดบรรทัดอัตโนมัติ */
+    display: flex;
+    align-items: center;    /* จัดให้อยู่กลางแนวตั้งของพื้นที่ */
+    justify-content: center; /* จัดให้อยู่กลางแนวนอน */
+    word-break: break-word; /* ตัดคำเมื่อยาวเกินขอบ */
+    overflow: hidden;       /* ถ้าพิมพ์เยอะเกินพื้นที่ ให้ซ่อนส่วนที่เกิน */
+    
+    /* 5. เลเยอร์และการแสดงผล */
+    z-index: 20;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+}
 
 
        /* --- ตัวเลือกทรงขวด (โชว์เมื่อเป็น 50ml) --- */
-       .vessel-selector {
-           display: none; gap: 1.5rem; justify-content: center; margin-top: 2rem;
-       }
+/* --- หาจุดนี้ใน Code ของคุณ --- */
+.vessel-selector {
+    display: flex; /* เปลี่ยนจาก none เป็น flex */
+    gap: 1.5rem; 
+    justify-content: center; 
+    margin-top: 2rem;
+}
        .vessel-option {
            width: 80px; height: 100px; border: 1px solid rgba(212, 175, 55, 0.2);
            border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.4s;
@@ -140,7 +169,7 @@
 
        <div class="bottle-display mb-10">
            <img id="perfume-bottle" src="image1.png" class="bottle-img" alt="bottle">
-           <!-- <div id="engraved-text" class="engraved-label font-elegant uppercase tracking-widest">Your Name</div> -->
+           <div id="engraved-text" class="engraved-label font-elegant uppercase tracking-widest">Your Name</div>
        </div>
 
 
@@ -151,18 +180,17 @@
                <button onclick="selectSize(50, 790, this)" class="size-btn font-elegant uppercase">50ml (790.-)</button>
            </div>
 
-
-           <div id="vessel-select-area" class="vessel-selector">
-               <div onclick="changeVessel('image1.png', this)" class="vessel-option active">
-                   <img src="image1.png" alt="1">
-               </div>
-               <div onclick="changeVessel('image2.png', this)" class="vessel-option">
-                   <img src="image2.png" alt="2">
-               </div>
-               <div onclick="changeVessel('image3.png', this)" class="vessel-option">
-                   <img src="image3.png" alt="3">
-               </div>
-           </div>
+<div id="vessel-select-area" class="vessel-selector" style="display: flex;">
+    <div id="vessel-1" onclick="changeVessel('image1.png', this)" class="vessel-option active">
+        <img src="image1.png" alt="1">
+    </div>
+    <div id="vessel-2" onclick="changeVessel('image2.png', this)" class="vessel-option">
+        <img src="image2.png" alt="2">
+    </div>
+    <div id="vessel-3" onclick="changeVessel('image3.png', this)" class="vessel-option" style="display: none;">
+        <img src="image3.png" alt="3">
+    </div>
+</div>
 
 
            <div class="color-selector">
@@ -191,23 +219,36 @@
        }
 
 
-       function selectSize(ml, price, el) {
-           document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-           el.classList.add('active');
-          
-           const vesselArea = document.getElementById('vessel-select-area');
-           const mainBottle = document.getElementById('perfume-bottle');
+function selectSize(ml, price, el) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
 
+    const v1 = document.getElementById('vessel-1');
+    const v2 = document.getElementById('vessel-2');
+    const v3 = document.getElementById('vessel-3');
+    const mainBottle = document.getElementById('perfume-bottle');
 
-           if(ml === 50) {
-               vesselArea.style.display = 'flex';
-               mainBottle.src = 'image1.png';
-           } else {
-               vesselArea.style.display = 'none';
-               mainBottle.src = 'image1.png';
-           }
-       }
+    if (ml === 30) {
+        v1.style.display = 'block';
+        v2.style.display = 'block';
+        v3.style.display = 'none'; // ซ่อนทรง 3 เมื่อเลือก 30ml
+        
+        if (mainBottle.src.includes('image3.png')) {
+            changeVessel('image1.png', v1);
+        }
+    } else {
+        v1.style.display = 'block';
+        v2.style.display = 'block';
+        v3.style.display = 'block'; // โชว์ทรง 3 เมื่อเลือก 50ml
+    }
+}
 
+// --- เพิ่มส่วนนี้เพื่อให้ระบบทำงานทันทีที่เปิดหน้าเว็บ ---
+window.onload = function() {
+    // สั่งให้เลือก 30ml เป็นค่าเริ่มต้น
+    const btn30 = document.querySelector('button[onclick*="30"]');
+    if(btn30) selectSize(30, 590, btn30);
+};
 
        function changeVessel(imgSrc, el) {
            document.getElementById('perfume-bottle').src = imgSrc;
